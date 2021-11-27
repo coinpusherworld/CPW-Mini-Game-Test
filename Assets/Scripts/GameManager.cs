@@ -26,6 +26,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -43,6 +44,11 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI scoreDisplay;
     [SerializeField]
     private TextMeshProUGUI usernameDisplay;
+    [SerializeField]
+    private Toggle flashingToggle;
+
+    //Settings
+    private bool flashingEnabled = true;
 
     void Awake()
     {
@@ -91,5 +97,32 @@ public class GameManager : MonoBehaviour
     {
         scoreDisplay.text = score.ToString();
         usernameDisplay.text = username;
+    }
+
+    /// <summary>
+    /// Update the flashing enabled mode with the settings menu.  (You should not change flashing mode mid game, this should only be changed in the settings menu.)
+    /// </summary>
+    public void UpdateFlashingMode()
+    {
+        UpdateFlashingMode(flashingToggle.isOn);
+    }
+
+    /// <summary>
+    /// Update the flashing enabled mode.  (You should not change flashing mode mid game, this should only be changed in the settings menu.)
+    /// </summary>
+    /// <param name="enabled"></param>
+    private void UpdateFlashingMode(bool enabled)
+    {
+        flashingEnabled = enabled;
+    }
+
+    /// <summary>
+    /// Returns of flashing is enabled.  If flashing is not enabled, then you should not flash lights, colors, or have rapid movement on screen.
+    /// More info at https://laurakbuzz.com/2020/08/28/the-important-reason-games-dont-have-epilepsy-safe-mode-settings-access-ability/
+    /// </summary>
+    /// <returns>flashingEnabled</returns>
+    public bool isFlashingAllowed()
+    {
+        return flashingEnabled;
     }
 }
