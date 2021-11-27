@@ -89,35 +89,49 @@ namespace DemoMiniGame
             //Play mini game's music.
             this.GetComponent<AudioSource>().Play();
 
-            //Anticipation loops
-            float timeLooping = 0; //How log the mini game has been looping random scores for anticipation.
-            while (timeLooping < 14.9) { //Loop random numbers until music hit.
-                //Random number of show player.
-                displayText.text = Random.Range(500,2000).ToString();
-                
-                //Change the looping speed depending on how long the game has been looping to match music.
-                if (timeLooping < 3.75f)
-                {
-                    yield return new WaitForSeconds(0.4688f);
-                    timeLooping += 0.4688f;
-                }
-                else if (timeLooping < 7.27)
-                {
-                    yield return new WaitForSeconds(0.4688f / 2f);
-                    timeLooping += 0.4688f/2f;
-                }
-                else if (timeLooping < 11.155f)
-                {
-                    yield return new WaitForSeconds(0.4688f / 4f);
-                    timeLooping += 0.4688f / 4f;
-                }
-                else
-                {
-                    yield return new WaitForSeconds(0.4688f / 8f);
-                    timeLooping += 0.4688f / 8f;
+            //Check if flashing is allowed
+            if (GameManager.Instance.isFlashingAllowed())
+            {
+                //Anticipation loops
+                float timeLooping = 0; //How log the mini game has been looping random scores for anticipation.
+                while (timeLooping < 14.9)
+                { //Loop random numbers until music hit.
+                  //Random number of show player.
+                    displayText.text = Random.Range(0, winningValues[winningValues.Length-1]).ToString();
+
+                    //Change the looping speed depending on how long the game has been looping to match music.
+                    if (timeLooping < 3.75f)
+                    {
+                        yield return new WaitForSeconds(0.4688f);
+                        timeLooping += 0.4688f;
+                    }
+                    else if (timeLooping < 7.27)
+                    {
+                        yield return new WaitForSeconds(0.4688f / 2f);
+                        timeLooping += 0.4688f / 2f;
+                    }
+                    else if (timeLooping < 11.155f)
+                    {
+                        yield return new WaitForSeconds(0.4688f / 4f);
+                        timeLooping += 0.4688f / 4f;
+                    }
+                    else
+                    {
+                        yield return new WaitForSeconds(0.4688f / 8f);
+                        timeLooping += 0.4688f / 8f;
+                    }
                 }
             }
-
+            else //Flashing is not allowed, no flashing mode will be use.
+            {
+                int i = 0;
+                while ( i < 32)
+                {
+                    displayText.text = Random.Range(0, winningValues[winningValues.Length - 1]).ToString();
+                    yield return new WaitForSeconds(0.4688f);
+                    i++;
+                }
+            }
             //Real winning value
             displayText.text = winningValues[winningIndex].ToString();
             //Update score display in main game.
