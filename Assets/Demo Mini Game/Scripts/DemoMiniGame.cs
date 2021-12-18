@@ -43,6 +43,13 @@ namespace DemoMiniGame
             camera.enabled = false;
         }
 
+        //Required: Unsub from OnStartMainGame when script is disabled.  Without this, your minigame may lock up the game when called after the game is restarted/reloaded.
+        void OnDisable()
+        {
+            //Unsubscribe from OnStartMiniGame
+            GameManager.StartMiniGame -= OnStartMiniGame;
+        }
+
         // Update is called once per frame
         void Update()
         {
